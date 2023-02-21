@@ -1,0 +1,294 @@
+   <!DOCTYPE html>
+   <html lang="en">
+       <head>
+         <meta charset="utf-8">
+   
+         <title id="titleName">Newf</title>
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+
+         <link rel="stylesheet" href="css/style.css">
+       </head>
+   
+       <body id="page">
+        <div id="workPage">
+
+        <ul class="nav">
+          <li class="nav-item">
+          <img src="css/round.png" id="roundLogo" class="tablinks active" onclick="openTab(event, 'welcome')" width="50" height="50" style="float: left;" >
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link " onclick="openTab(event, 'timesheet'),show()">Timesheet</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="openTab(event, 'client'),show()">Client</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="openTab(event, 'invoice'),hide(), poping()">Invoice</a>
+          </li>
+          <li class="nav-item">
+            <input type="file" class="nav-link form-control-file" id="inputfile">
+          </li>
+        </ul>
+
+              <!-- ---------------------------------------------- -->  
+              <div id="welcome" class="tabcontent" style="display: block;">
+                <h3>Welcome</h3>
+                <a>Pick your task</a>
+              </div>
+        <!-- ---------------------------------------------- -->
+        <div id="timesheet" class="tabcontent">
+
+            <ul class="nav secondary">
+              <li class="nav-item">
+                <a class="nav-link" onclick="runclock()">Start/Stop</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="addTable()">Add Work</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="save-link" >Save Work</a>
+              </li>
+                <a class="timeField">
+                  <b >
+                    <c id="hourDiv">0</c>
+                    <c >:</c>
+                    <c id="minuteDiv">0</c>
+                    <c >:</c>
+                    <c id="secondDiv">0</c>
+                    </b>
+                </a>
+            </ul>
+
+
+            <ul class="nav third">
+
+                <!-- <a class="nav-link" >
+                  Date
+                  <input style="width: 120px; margin-left: 5px; " type="date" id="dateInput" >
+                </a> -->
+
+
+              <a class="nav-link " >
+                Employee
+                <select style="width: 120px; margin-left: 5px" name="Employees" id="nameInput">
+                  <option value="A Shamrock" >A Shamrock</option>
+                </select>
+              </a>
+              
+              <a class="nav-link " >
+              Rate
+              <input style="width: 50px; margin-left: 5px; " type="number" placeholder="Rate" value="150" id="rateInput">
+              </a>
+
+              <a class="nav-link " >
+                Task
+                <select style="width: 120px; margin-left: 5px" name="Projects" id="Projects">
+                  <option value="O'Hare" >O'Hare</option>
+                  <option value="Kings Farm">Kings Farm</option>
+                  <option value="Stand Together">Stand Together</option>
+                  <option value="Kaiser">Kaiser</option>
+                </select>
+              </a>
+
+            </ul>
+             <div id="jobs" style="padding-right:20px;"></div>
+           </div>
+         
+ 
+
+        
+<!-- ---------------------------------------------- -->
+
+<div id="client" class="tabcontent">
+  <!-- <h3>Client</h3>
+  <p>Tokyo is the capital of Japan.</p> -->
+  <div>
+   <!-- Invoice Date:
+    <div class="clientInfo" id="invoiceDate" >
+    </div>
+    Due:
+    <div class="clientInfo" id="invoiceDue" >
+    </div>
+    Invoice#
+    <div class="clientInfo" id="invoiceNum" >
+    </div>
+    Job#
+    <div class="clientInfo" id="jobNum" >
+    </div> -->
+
+    <!-- <br>
+    Client Name
+    <div class="clientInfo" id="clientName" >
+    </div>
+
+    Client address
+    <div class="clientInfo" id="clientAddress" >
+    </div>
+    
+    Client Phone #
+    <div class="clientInfo" id="clientPhone" >
+    </div>    
+
+    Client Email
+    <div class="clientInfo" id="clientEmail" >
+    </div>
+
+    Client Task List
+    <div class="clientInfo" id="clientTasks" >
+    </div> -->
+
+  </div>
+
+</div>
+
+<!-- ---------------------------------------------- -->
+</div>
+
+
+
+    <div id="invoice" class="tabcontent">
+
+            <div class="c" onclick="openTab(event, 'timesheet'),show()">
+              <a id="fileDate" class="c1"></a>
+              <a id="clientTitle" class="c2">Lucky Development</a>
+              <a id="invPage" class="c3">Invoice</a>
+            </div>
+
+            <div class="d" onclick="openTab(event, 'timesheet'),show()">
+              INVOICE
+            </div>
+
+       
+       <div class="e">
+                <img src="css/round.png" class="e1" width="150" height="150" onclick="openTab(event, 'timesheet'),show()">
+
+              <Div class="e2" >      
+                 <a style="font-weight: bold;"> Lucky Development LLC</a>
+                  <br>
+                  8767 Edgehill rd.
+                  <br>
+                  Mentor, Ohio 44060
+                  <br>
+                  (216) 282-6225
+                  <br>
+                  Billing@LuckyDevCo.com
+                  <br>
+                  <a href="https://lucky-development.com/" style="color: #047e4b;"> LuckyDevCo.com</a>
+              </Div>   
+      </div>
+        
+      <div class="f" >
+        BILL TO
+      </div>
+
+        <div class="e">
+
+          <Div class="e3" >  
+          <div id="clientInvoiceDate" >
+            Invoice Date:
+          </div>
+      
+          <div id="clientInvoiceDue" >
+            Due:
+          </div>
+          
+          <div id="invoiceNum" >
+            Invoice #:
+          </div>
+        </div>
+
+              <Div id="clientInfo" class="e2" >  
+    <div id="clientName" >
+      Name
+    </div>
+
+    <div id="clientStreet" >
+      Street
+    </div>
+    
+    <div id="clientCity" >
+      City
+    </div>
+
+    <div id="clientPhone" >
+      Phone
+    </div>    
+
+    <div id="clientAttn" >
+      Attn:
+    </div>    
+
+    <div id="clientEmail" >
+      Email
+    </div>
+            </div> 
+             
+            </div>           
+        
+            <div class="g" >
+              Amount Due(USD):
+              <a id="totalDue"></a>
+            </div>
+
+            <div id="plop"></div>
+
+          
+
+  
+        <div class="h" >
+         <a class="i" style="color: #000;">THANK YOU FOR YOUR BUSINESS</a>
+         <br>
+         <br>
+          Please make all checks payable to
+          <br>
+          Lucky Development LLC
+          <br>
+          To pay with credit card, please call (216) 282-6225
+            </div>
+
+        <div class="j">
+              Lucky Development LLC. 
+            </div>
+          
+
+
+          </div> 
+          
+            <!-- </div>
+    </div> 
+            
+            
+                               Frank Novak and Sons, Inc.
+23940 Miles Road
+Bedford Heights, Ohio 44128
+(216) 475-5440
+Attn: Accounts Payable
+pozimek@franknovak.com
+
+
+Amount Due (USD): $1,800.00
+
+TABLE
+
+Thank You For Your Business
+Please make all checks payable to
+Lucky Development LLC
+
+To pay with credit card, please call (216) 282-6225
+
+Lucky Development LLC. -->
+   
+        
+<!-- ---------------------------------------------- -->
+
+   </body>
+
+   <script src="js/custom.js"></script>
+   </html>

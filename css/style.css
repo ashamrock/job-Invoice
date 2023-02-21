@@ -1,0 +1,209 @@
+/*--------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+@font-face {
+font-family: "Righteous";
+src: url("../fonts/BalooChettan-Regular.ttf");
+src: url("../fonts/BalooChettan-Regular.ttf");
+}
+/*****---------------------------------------- 1) font-family: 'Rajdhani', sans-serif;
+ 2) font-family: 'Poppins', sans-serif;
+ ----------------------------------------*****/
+* {
+     box-sizing: border-box !important;
+     transition: ease all 0.5s;
+}
+
+html {
+     scroll-behavior: smooth;
+}
+
+.timeField{
+     padding-left: 10px;
+font-size: 25px;
+text-decoration: none !important;
+}
+
+.nav{
+     border: double ;
+     height: 55px;
+     text-decoration: underline;
+}
+
+.nav-link{
+padding: 10px;
+}
+
+.secondary {
+     border: none ;
+     border-bottom: 1px solid #000000;
+   }
+
+   .third {
+     border: none ;
+   }
+
+.nav-item{
+     cursor: pointer;
+     font-size: 15px;
+     color: #000;
+     font-weight: bold;
+     max-width: 300px;
+}
+
+.rotate {
+  animation: rotation 8s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+  .c {
+font-weight: light;
+font-size: 12px;
+color: #666666;
+width: 100%;
+text-align: center;
+} 
+
+.c1 {
+float: left;
+width:25%;
+text-align: left;
+} 
+
+.c2 {
+float: left;
+width:50%;
+text-align: center;
+} 
+
+.c3 {
+float: right;
+width:25%;
+text-align: right;
+} 
+
+.d{
+text-decoration: underline;
+/* font-weight: bolder; */
+font-size: 32px;
+border-bottom: 1px solid #000000;
+  text-align: center;
+  padding-top: 40px;
+  width: 100%;
+}
+.e{
+padding: 10px;
+height: 180px;
+}
+
+.e1 {
+text-align: left;
+
+}
+
+.e2 {
+text-align: right;
+float:  right;
+font-size: 15px;
+}
+
+.e3 
+{
+     text-align: left;
+     float:  left;
+     font-size: 15px;
+     }
+
+  .f {
+text-decoration: underline;
+/* font-weight: bold; */
+font-size: 20px;
+border-top: 1px solid #000000;
+border-bottom: 1px solid #000000;
+text-align: center;
+  }
+
+  .g {
+     font-weight: bold;
+     font-size: 16px;
+     text-align: center;
+     width: 100%;
+     padding-bottom: 10px;
+       }
+
+  .h {
+     font-size: 16px;
+     text-align: center;
+     width: 100%;
+     padding-bottom: 10px;
+     color: #666666;
+       }
+       
+       
+  .i {
+     font-weight: bold;
+     font-size: 16px;
+     text-align: center;
+     width: 100%;
+     padding-bottom: 10px;
+       }
+
+       
+  .j {
+font-weight: light;
+font-size: 12px;
+color: #666666;
+width: 100%;
+text-align: center;
+position: fixed;
+bottom: 0;
+
+} 
+
+   .tab button.active {
+     background-color: #ccc;
+   }
+   
+
+   .tabcontent {
+     display: none;
+     padding: 5px 5px;
+   }
+
+body {
+     color: #000000;
+     font-size: 14px;
+     font-family:Poppins;
+     line-height: 1.80857;
+     font-weight: normal;
+     overflow-x: hidden;
+}
+
+table {
+     font-family: arial, sans-serif;
+     border-collapse: collapse;
+     width: 100%;
+     margin: 15px;
+   }
+   
+   td, th {
+     border: 1px solid #000000;
+     text-align: left;
+     padding: 6px;
+   }
+   
+   tr:nth-child(even) {
+     background-color: #c9c9c9;
+   }
+
