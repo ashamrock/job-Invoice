@@ -24,8 +24,8 @@ var workingFileName = "";
 var tophead;
 var header = ["Date", "Employee", "Rate", "Task", "Job #", "Hours", "SubTotal"]
 
-var billingHours= [];
-var billingTotal= [];
+var billingHours = [];
+var billingTotal = [];
 var hourTotals;
 var subTotals;
 
@@ -53,103 +53,103 @@ function openTab(evt, tabName) {
 	var i, tabcontent, tablinks;
 	tabcontent = document.getElementsByClassName("tabcontent");
 	for (i = 0; i < tabcontent.length; i++) {
-	  tabcontent[i].style.display = "none";
+		tabcontent[i].style.display = "none";
 	}
 	tablinks = document.getElementsByClassName("tablinks");
 	for (i = 0; i < tablinks.length; i++) {
-	  tablinks[i].className = tablinks[i].className.replace(" active", "");
+		tablinks[i].className = tablinks[i].className.replace(" active", "");
 	}
 	document.getElementById(tabName).style.display = "block";
 	evt.currentTarget.className += " active";
-  }
+}
 
-  file.addEventListener('change', () => {
+file.addEventListener('change', () => {
 
 	var fr = new FileReader();
-	fr.onload = function() {
-	  // By lines
-	  var lines = this.result.split('\n');
+	fr.onload = function () {
+		// By lines
+		var lines = this.result.split('\n');
 
-	  for (var line = 0; line < lines.length; line++) {
-		// client.push(lines[line].replace(",", "	"));
-		allData.push(lines[line].split("\t"));
+		for (var line = 0; line < lines.length; line++) {
+			// client.push(lines[line].replace(",", "	"));
+			allData.push(lines[line].split("\t"));
+		}
+
+		for (var line = 0; line < 14; line++) {
+			client.push(lines[line].split("\t"));
+		}
+
+		for (var line = 4; line < 7; line++) {
+			projects.push(lines[line].split("\t"));
+		}
+
+		for (var line = 16; line < lines.length; line++) {
+			taskData.push(lines[line].split("\t"));
+		}
+		console.log(allData)
+		clientPopulate()
+		generate_table()
 	}
 
-	  for (var line = 0; line < 14; line++) {
-		client.push(lines[line].split("\t"));
-	}
-
-	for (var line = 4; line < 7; line++) {
-		projects.push(lines[line].split("\t"));
-	}
-
-	  for (var line = 16; line < lines.length; line++) {
-		  taskData.push(lines[line].split("\t"));
-	  }
-	  console.log(allData)
-	  clientPopulate()
-	  generate_table()
-	 }
-  
-	 workingFileName = document.getElementById("inputfile").files[0].name;
-	 fr.readAsText(file.files[0]);
+	workingFileName = document.getElementById("inputfile").files[0].name;
+	fr.readAsText(file.files[0]);
 	//    clientPopulate()
-  });
+});
 
-function clientPopulate(){
-clientName = client[0][0]
-clientStreet = client[1][0]
-clientCity = client[2][0]
-clientPhone = client[3][0]
-clientAttn = client[4][0]
-clientEmail = client[5][0]
+function clientPopulate() {
+	clientName = client[0][0]
+	clientStreet = client[1][0]
+	clientCity = client[2][0]
+	clientPhone = client[3][0]
+	clientAttn = client[4][0]
+	clientEmail = client[5][0]
 
-clientInvoiceDate = client[6][0]
-clientInvoiceDue = client[7][0]
-clientInvoiceNum = client[8][0]
-clientNumber = client[9][0]
-clientPOC = client[10][0]
-other1 = client[11][0]
-other2 = client[12][0]
-other3 = client[13][0]
-invoiceNum = clientInvoiceNum + "_" + clientNumber
-document.getElementById("clientName").innerHTML = clientName
-document.getElementById("clientStreet").innerHTML = clientStreet
-document.getElementById("clientCity").innerHTML = clientCity
-document.getElementById("clientPhone").innerHTML = clientPhone
-document.getElementById("clientAttn").innerHTML = clientAttn
-document.getElementById("clientEmail").innerHTML = clientEmail
-document.getElementById("clientInvoiceDate").innerHTML = "Invoice Date: "+clientInvoiceDate
-document.getElementById("invoiceNum").innerHTML = "Invoice #: "+invoiceNum
-document.getElementById("clientInvoiceDue").innerHTML = "Due: "+clientInvoiceDue
-document.getElementById("clientTitle").innerHTML = clientName
-// document.getElementById("totalDue").innerHTML = subTotals
+	clientInvoiceDate = client[6][0]
+	clientInvoiceDue = client[7][0]
+	clientInvoiceNum = client[8][0]
+	clientNumber = client[9][0]
+	clientPOC = client[10][0]
+	other1 = client[11][0]
+	other2 = client[12][0]
+	other3 = client[13][0]
+	invoiceNum = clientInvoiceNum + "_" + clientNumber
+	document.getElementById("clientName").innerHTML = clientName
+	document.getElementById("clientStreet").innerHTML = clientStreet
+	document.getElementById("clientCity").innerHTML = clientCity
+	document.getElementById("clientPhone").innerHTML = clientPhone
+	document.getElementById("clientAttn").innerHTML = clientAttn
+	document.getElementById("clientEmail").innerHTML = clientEmail
+	document.getElementById("clientInvoiceDate").innerHTML = "Invoice Date: " + clientInvoiceDate
+	document.getElementById("invoiceNum").innerHTML = "Invoice #: " + invoiceNum
+	document.getElementById("clientInvoiceDue").innerHTML = "Due: " + clientInvoiceDue
+	document.getElementById("clientTitle").innerHTML = clientName
+	// document.getElementById("totalDue").innerHTML = subTotals
 }
 
 
 function runclock() {
-if (onTheClock === 0){
-	onTheClock = 1
+	if (onTheClock === 0) {
+		onTheClock = 1
 
-	var element = document.getElementById("roundLogo");
-	element.classList.add("rotate");
+		var element = document.getElementById("roundLogo");
+		element.classList.add("rotate");
 
-	timeValue = setInterval(function() {
-		var t = seconds++ ;
-		if(seconds>59){
-			minutes++;
-			seconds=0;
-			if(minutes>59){
-				hours++;
-				minutes=0;
+		timeValue = setInterval(function () {
+			var t = seconds++;
+			if (seconds > 59) {
+				minutes++;
+				seconds = 0;
+				if (minutes > 59) {
+					hours++;
+					minutes = 0;
+				}
 			}
-		}
 
-		document.getElementById("hourDiv").innerHTML = hours;
-		document.getElementById("minuteDiv").innerHTML = minutes;
-		document.getElementById("secondDiv").innerHTML = seconds;
-	 }, 1000);
-	}else if(onTheClock === 1){
+			document.getElementById("hourDiv").innerHTML = hours;
+			document.getElementById("minuteDiv").innerHTML = minutes;
+			document.getElementById("secondDiv").innerHTML = seconds;
+		}, 1000);
+	} else if (onTheClock === 1) {
 		clearInterval(timeValue);
 		onTheClock = 0;
 		var element = document.getElementById("roundLogo");
@@ -176,14 +176,15 @@ function reset() {
 function addTable() {
 	addingup()
 
-	if(onTheClock === 0){
+	if (onTheClock === 0) {
 		return;
 	}
 	// var datevalue = document.getElementById("dateInput").value;
 	var empvalue = document.getElementById("nameInput").value;
 	var ratevalue = document.getElementById("rateInput").value;
 	var taskvalue = document.getElementById("Projects").value;
-	var hoursvalue = hours+(minutes/60)+(seconds/3600);
+	var jobvalue = "Enter job value lookup";
+	var hoursvalue = hours + (minutes / 60) + (seconds / 3600);
 	var totalvalue = hoursvalue * ratevalue;
 
 	if (empvalue.length === 0) {
@@ -195,7 +196,7 @@ function addTable() {
 	} else if (taskvalue.length == 0) {
 		alert("Enter your task")
 		return;
-	} 
+	}
 
 	var table = document.getElementById("taskTable");
 	var row = table.insertRow(0);
@@ -210,11 +211,12 @@ function addTable() {
 	cell2.innerHTML = empvalue;
 	cell3.innerHTML = ratevalue;
 	cell4.innerHTML = taskvalue;
-	cell5.innerHTML = "GET TABLE LOOKUP FOR TASK"
+	cell5.innerHTML = jobvalue;
 	cell6.innerHTML = hoursvalue.toFixed(1);
 	cell7.innerHTML = totalvalue.toFixed(2);
-
-	taskData.unshift([date,empvalue,ratevalue,taskvalue,hoursvalue.toFixed(1),totalvalue.toFixed(2)])
+	console.log(taskData)
+	taskData.unshift([date, empvalue, ratevalue, taskvalue, jobvalue, hoursvalue.toFixed(1), totalvalue.toFixed(2)])
+	console.log(taskData)
 	addingup()
 	reset();
 	clearInterval(timeValue);
@@ -225,37 +227,36 @@ function addTable() {
 
 function addingup() {
 
-billingHours= [];
-billingTotal= [];
-hourTotals = "";
-subTotals = "";
+	billingHours = [];
+	billingTotal = [];
+	hourTotals = "";
+	subTotals = "";
 
-for (let i = 0; i < taskData.length; i++) {
+	for (let i = 0; i < taskData.length; i++) {
+		billingHours.push(parseFloat(taskData[i][5]))
+		billingTotal.push(parseFloat(taskData[i][6]))
 
-	billingHours.push(parseFloat(taskData[i][5]))
-	billingTotal.push(parseFloat(taskData[i][6]))
+		hourTotals = billingHours.reduce(function (a, b) {
+			return a + b;
+		});
 
-hourTotals = billingHours.reduce(function(a, b){
-  return a + b;
-});
+		subTotals = billingTotal.reduce(function (a, b) {
+			return a + b;
+		});
 
-subTotals = billingTotal.reduce(function(a, b){
-	return a + b;
-});
+		tophead.rows[0].cells[5].innerHTML = "Hours= " + hourTotals.toFixed(2);
+		tophead.rows[0].cells[6].innerHTML = "SubTotal= $" + subTotals.toFixed(0);
+		const demo1 = (subTotals).toLocaleString('en-US', {
+			style: 'currency',
+			currency: 'USD'
+		});
+		document.getElementById("totalDue").innerHTML = demo1
 
-tophead.rows[0].cells[5].innerHTML= "Hours = " + hourTotals.toFixed(2);
-tophead.rows[0].cells[6].innerHTML= "SubTotal = $" + subTotals.toFixed(0);
-const demo1 =  (subTotals).toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD'
-});
-document.getElementById("totalDue").innerHTML = demo1
-
-}}
+	}
+}
 
 function poping(){
 var noDiv=document.getElementById("invoiceTable");
-console.log(noDiv)
 if(noDiv===null){
 var elem = document.querySelector('#jobs');
 var base = document.querySelector('#plop');
@@ -263,7 +264,6 @@ var clone = elem.cloneNode(true);
 clone.id = 'invoiceTable';
 base.after(clone);
 }else{
-console.log(noDiv)
 noDiv.parentNode.removeChild(noDiv);
 cloneTable()
 }}
@@ -274,103 +274,96 @@ var base = document.querySelector('#plop');
 var clone = elem.cloneNode(true);
 clone.id = 'invoiceTable';
 base.after(clone);
-console.log(clone)
+}
+
+function erase_table(){
+var noDiv=document.getElementById("invoiceTable");
+noDiv.parentNode.removeChild(noDiv);
+console.log(noDiv)
 }
 
 
+function generate_table() {
+
+	var body = document.getElementById("jobs");
+	var tbl = document.createElement("table");
+	tophead = document.createElement("thead");
+	var tblBody = document.createElement("tbody");
+	var topRow = document.createElement("tr");
+
+	tbl.appendChild(tophead);
+	tophead.appendChild(topRow);
+	tophead.setAttribute("id", "headtable");
 
 
-  function generate_table() {
-
-	tasktable = document.getElementsByTagName("table");
-
-	 var body = document.getElementById("jobs");
-	 var tbl = document.createElement("table");
-	 tophead = document.createElement("thead");
-	 var tblBody = document.createElement("tbody");
-	 var topRow = document.createElement("tr");
-
-		tbl.appendChild(tophead);
-	  tophead.appendChild(topRow);
-	  tophead.setAttribute("id", "headtable");
-
-
-	  for (var j = 0; j < header.length; j++) {
+	for (var j = 0; j < header.length; j++) {
 		var cell = document.createElement("th");
 		var cellText = document.createTextNode(header[j]);
 		cell.appendChild(cellText);
 		topRow.appendChild(cell);
 		tophead.appendChild(topRow);
-	}	 	
+	}
 	addingup()
-  // creating all cells
-	  for (var i = 0; i < taskData.length; i++) {
-		  var row = document.createElement("tr");
-			 for (var j = 0; j < header.length; j++) {
-				  var cell = document.createElement("td");
-				  var cellText = document.createTextNode(taskData[i][j]);
-				  cell.appendChild(cellText);
-				  row.appendChild(cell);
-				  tblBody.appendChild(row);
-	   } 
-	   tbl.appendChild(tblBody);
-	   body.appendChild(tbl);
-	   tblBody.setAttribute("id", "taskTable");
-	  }
-  }
+	// creating all cells
+	for (var i = 0; i < taskData.length; i++) {
+		var row = document.createElement("tr");
+		for (var j = 0; j < header.length; j++) {
+			var cell = document.createElement("td");
+			var cellText = document.createTextNode(taskData[i][j]);
+			cell.appendChild(cellText);
+			row.appendChild(cell);
+			tblBody.appendChild(row);
+		}
+		tbl.appendChild(tblBody);
+		body.appendChild(tbl);
+		tblBody.setAttribute("id", "taskTable");
+	}
+}
 
 
-  $('#save-link').click(function save()
-{
+$('#save-link').click(function save() {
 
-  var retContent = [];
-  var retString = '';
+	var retContent = [];
+	var retString = '';
 
-  
-  for (var i = 0; i < client.length; i++) {
-	retContent.push(client[i].join("\t"));
+	for (var i = 0; i < client.length; i++) {
+		retContent.push(client[i].join("\t"));
+	};
 
-};
+	$('thead tr').each(function (idx, elem) {
+		var elemText = [];
+		$(elem).children('th').each(function (childIdx, childElem) {
+			elemText.push($(childElem).text());
+		});
+		retContent.push(`${elemText.join('\t')}`);
+	});
 
-  $('thead tr').each(function (idx, elem)
-  {
-    var elemText = [];
-    $(elem).children('th').each(function (childIdx, childElem)
-    {
-      elemText.push($(childElem).text());
-    });
-    retContent.push(`${elemText.join('\t')}`);
-  });
+	$('tbody tr').each(function (idx, elem) {
+		var elemText = [];
+		$(elem).children('td').each(function (childIdx, childElem) {
+			elemText.push($(childElem).text());
+		});
+		retContent.push(`${elemText.join('\t')}`);
+	});
+	retString = retContent.join('\n');
 
-
-  $('tbody tr').each(function (idx, elem)
-  {
-    var elemText = [];
-    $(elem).children('td').each(function (childIdx, childElem)
-    {
-      elemText.push($(childElem).text());
-    });
-    retContent.push(`${elemText.join('\t')}`);
-  });
-  retString = retContent.join('\n');
-
-	var file = new Blob([retString], {type: 'text/plain'});
-  var btn = $('#save-link');
+	var file = new Blob([retString], { type: 'text/plain' });
+	var btn = $('#save-link');
 	var substring = workingFileName.slice(11);
-  btn.attr("href", URL.createObjectURL(file));
-  btn.prop("download", date+"_"+substring);
+	btn.attr("href", URL.createObjectURL(file));
+	btn.prop("download", date + "_" + substring);
 }
 )
 
 
-function hide(){
-var element = document.getElementById("workPage");
-element.style.display = "none";
+function hide() {
+	var element = document.getElementById("workPage");
+	element.style.display = "none";
 }
 
-function show(){
-var element = document.getElementById("workPage");
-element.style.display = "block";
+function show() {
+	var element = document.getElementById("workPage");
+	element.style.display = "block";
 }
 
 // function invoice() {
