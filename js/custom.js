@@ -14,6 +14,7 @@ var date = mm + '_' + dd + '_' + yyyy;
 
 var client = []
 var projects = []
+var jobNumbers = []
 
 var file = document.getElementById('inputfile');
 
@@ -29,21 +30,21 @@ var billingTotal = [];
 var hourTotals;
 var subTotals;
 
-var clientName
-var clientStreet
-var clientCity
-var clientPhone
-var clientAttn
-var clientEmail
-var clientInvoiceDate
+// var clientName
+// var clientStreet
+// var clientCity
+// var clientPhone
+// var clientAttn
+// var clientEmail
+// var clientInvoiceDate
 
-var clientInvoiceDue
-var clientInvoiceNum
-var clientNumber
-var clientPOC
-var Other1
-var Other2
-var Other3
+// var clientInvoiceDue
+// var clientInvoiceNum
+// var clientNumber
+// var clientPOC
+// var Other1
+// var Other2
+// var Other3
 
 var invoiceNum
 // updateSubTotal();
@@ -63,11 +64,29 @@ function openTab(evt, tabName) {
 	evt.currentTarget.className += " active";
 }
 
+function cleanSlate(){
+	client = []
+	projects = []
+	jobNumbers = []
+	taskData = [];
+	allData = [];
+	billingHours = [];
+	billingTotal = [];
+// var hourTotals;
+// var subTotals;
+	var div1=document.getElementById("buffetTable");
+	div1.parentNode.removeChild(div1);
+	var div2=document.getElementById("Projects");
+	div2.parentNode.removeChild(div2);
+}
+
+
 file.addEventListener('change', () => {
 
 	var fr = new FileReader();
 	fr.onload = function () {
 		// By lines
+
 		var lines = this.result.split('\n');
 
 		for (var line = 0; line < lines.length; line++) {
@@ -75,25 +94,43 @@ file.addEventListener('change', () => {
 			allData.push(lines[line].split("\t"));
 		}
 
-		for (var line = 0; line < 14; line++) {
+		for (var line = 0; line < 15; line++) {
 			client.push(lines[line].split("\t"));
-		}
-
-		for (var line = 4; line < 7; line++) {
-			projects.push(lines[line].split("\t"));
 		}
 
 		for (var line = 16; line < lines.length; line++) {
 			taskData.push(lines[line].split("\t"));
 		}
-		console.log(allData)
+
+		var getProjects = document.getElementById("projectlist");
+		var newDiv = document.createElement("select");
+		getProjects.appendChild(newDiv);
+		newDiv.setAttribute("id", "Projects");
+
+		for (var i = 0; i < 15; i++) {	
+			var select = document.getElementById("Projects");
+			data = allData[i][2]
+			if (data===""){
+				break;
+			}
+			projects.push(data);
+			var element = document.createElement("option");
+			var option = projects[i];
+			    element.textContent = option;
+    			element.value = option;
+    			select.appendChild(element);
+			jobNumbers.push(allData[i][3]);	
+				element.setAttribute("id", allData[i][3]);
+		}
+
+
+		// console.log(allData)
 		clientPopulate()
 		generate_table()
 	}
 
 	workingFileName = document.getElementById("inputfile").files[0].name;
 	fr.readAsText(file.files[0]);
-	//    clientPopulate()
 });
 
 function clientPopulate() {
@@ -112,18 +149,19 @@ function clientPopulate() {
 	other1 = client[11][0]
 	other2 = client[12][0]
 	other3 = client[13][0]
-	invoiceNum = clientInvoiceNum + "_" + clientNumber
+	invoiceNum = clientInvoiceNum + "_" + clientNumber + "FIX INVOICE NUMBER!!!!!"
 	document.getElementById("clientName").innerHTML = clientName
 	document.getElementById("clientStreet").innerHTML = clientStreet
 	document.getElementById("clientCity").innerHTML = clientCity
 	document.getElementById("clientPhone").innerHTML = clientPhone
 	document.getElementById("clientAttn").innerHTML = clientAttn
 	document.getElementById("clientEmail").innerHTML = clientEmail
-	document.getElementById("clientInvoiceDate").innerHTML = "Invoice Date: " + clientInvoiceDate
+	document.getElementById("clientInvoiceDate").innerHTML = "Invoice Date: " + clientInvoiceDate + "FIX THIS!!!!!"
 	document.getElementById("invoiceNum").innerHTML = "Invoice #: " + invoiceNum
-	document.getElementById("clientInvoiceDue").innerHTML = "Due: " + clientInvoiceDue
+	document.getElementById("clientInvoiceDue").innerHTML = "Due: " + clientInvoiceDue + "FIX THIS!!!!!"
 	document.getElementById("clientTitle").innerHTML = clientName
 	// document.getElementById("totalDue").innerHTML = subTotals
+
 }
 
 
@@ -172,18 +210,18 @@ function reset() {
 
 }
 
-
 function addTable() {
 	addingup()
 
 	if (onTheClock === 0) {
 		return;
 	}
-	// var datevalue = document.getElementById("dateInput").value;
+
 	var empvalue = document.getElementById("nameInput").value;
 	var ratevalue = document.getElementById("rateInput").value;
 	var taskvalue = document.getElementById("Projects").value;
-	var jobvalue = "Enter job value lookup";
+	var taskNumber = document.getElementById("Projects");
+	var jobvalue = taskNumber.options[taskNumber.selectedIndex].id;
 	var hoursvalue = hours + (minutes / 60) + (seconds / 3600);
 	var totalvalue = hoursvalue * ratevalue;
 
@@ -213,17 +251,12 @@ function addTable() {
 	cell4.innerHTML = taskvalue;
 	cell5.innerHTML = jobvalue;
 	cell6.innerHTML = hoursvalue.toFixed(1);
-	cell7.innerHTML = totalvalue.toFixed(2);
-	console.log(taskData)
-	taskData.unshift([date, empvalue, ratevalue, taskvalue, jobvalue, hoursvalue.toFixed(1), totalvalue.toFixed(2)])
-	console.log(taskData)
+	cell7.innerHTML = totalvalue.toFixed(1);
+	taskData.unshift([date, empvalue, ratevalue, taskvalue, jobvalue, hoursvalue.toFixed(1), totalvalue.toFixed(1)])
 	addingup()
 	reset();
 	clearInterval(timeValue);
-	// updateSubTotal();
 }
-
-//--------------------------------------------------------------------------------------------------------------------------
 
 function addingup() {
 
@@ -266,7 +299,8 @@ base.after(clone);
 }else{
 noDiv.parentNode.removeChild(noDiv);
 cloneTable()
-}}
+}
+}
 
 function cloneTable(){
 	var elem = document.querySelector('#jobs');
@@ -279,7 +313,6 @@ base.after(clone);
 function erase_table(){
 var noDiv=document.getElementById("invoiceTable");
 noDiv.parentNode.removeChild(noDiv);
-console.log(noDiv)
 }
 
 
@@ -292,6 +325,7 @@ function generate_table() {
 	var topRow = document.createElement("tr");
 
 	tbl.appendChild(tophead);
+	tbl.setAttribute("id", "buffetTable");
 	tophead.appendChild(topRow);
 	tophead.setAttribute("id", "headtable");
 
@@ -355,7 +389,6 @@ $('#save-link').click(function save() {
 }
 )
 
-
 function hide() {
 	var element = document.getElementById("workPage");
 	element.style.display = "none";
@@ -366,15 +399,29 @@ function show() {
 	element.style.display = "block";
 }
 
-// function invoice() {
-// 	var inv = document.getElementById("invoice");
-// 	var tms = document.getElementById("timesheet");
+function showAddClient() {
+	var showMe = document.getElementById("addClient");
+	var hideIt = document.getElementById("editClient");
+	var nope = document.getElementById("clientInfo");
+	showMe.style.display = "block";
+	hideIt.style.display = "none";
+	nope.style.display = "none";
+}
 
-// 	if (inv.style.display === "none") {
-// 	  inv.style.display = "block";
-// 	  tms.style.display = "none";
-// 	} else {
-// 		inv.style.display = "none";
-// 		tms.style.display = "block";
-// 	}
-// 	}
+function showEditClient() {
+	var showMe = document.getElementById("editClient");
+	var hideIt = document.getElementById("addClient");
+	var nope = document.getElementById("clientInfo");
+	showMe.style.display = "block";
+	hideIt.style.display = "none";
+	nope.style.display = "none";
+}
+
+function showClientInfo() {
+	var showMe = document.getElementById("clientInfo");
+	var hideIt = document.getElementById("addClient");
+	var nope = document.getElementById("editClient");
+	showMe.style.display = "block";
+	hideIt.style.display = "none";
+	nope.style.display = "none";
+}
