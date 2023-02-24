@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
 
+<button type="button" class="btn btn-danger" onclick="clientPopulate()">Big 'ol' Test Button</button>
+
   <body id="page">
     <div id="workPage">
 
@@ -38,7 +40,7 @@
           <a class="nav-link" onclick="openTab(event, 'invoice'),hide(), poping()">Invoice</a>
         </li>
         <li class="nav-item">
-          <input type="file" class="nav-link form-control-file" id="inputfile">
+          <input onclick="cleanSlate()" type="file" class="nav-link form-control-file" id="inputfile">
         </li>
       </ul>
 
@@ -92,14 +94,10 @@ Date
             <input style="width: 50px; margin-left: 5px; " type="number" placeholder="Rate" value="150" id="rateInput">
           </a>
 
-          <a class="nav-link ">
+          <a class="nav-link " id="projectlist">
             Task
-            <select style="width: 120px; margin-left: 5px" name="Projects" id="Projects">
-              <option value="O'Hare">O'Hare</option>
-              <option value="Kings Farm">Kings Farm</option>
-              <option value="Stand Together">Stand Together</option>
-              <option value="Kaiser">Kaiser</option>
-            </select>
+            <!-- <select style="width: 120px; margin-left: 5px" name="Projects" id="Projects">
+            </select> -->
           </a>
 
         </ul>
@@ -109,9 +107,80 @@ Date
       <!-- ---------------------------------------------- -->
 
       <div id="client" class="tabcontent">
+
+        <ul class="nav secondary">
+          <li class="nav-item">
+            <a class="nav-link " onclick="showClientInfo()">Client Info</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " onclick="showAddClient()">Add Client</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="showEditClient()">Edit Client</a>
+          </li>
+        </ul>
+
+        <div id="clientInfo" class="tabcontent">
+          <h3>Current Client Info</h3>
+        </div>
+
+        <div id="addClient" class="tabcontent">
+          <form action="/action_page.php">
+          <h3>Add A New Client</h3>
+            <input type="text" id="cname" name="cname"> Name
+            <br>
+            <input type="text" id="cstreet" name="cstreet"> Street
+            <br>
+            <input type="text" id="ccity" name="ccity"> City
+            <br>
+            <input type="text" id="cphone" name="cphone"> Phone#
+            <br>
+            <input type="text" id="cattn" name="cattn"> Attn:
+            <br>
+            <input type="text" id="cemail" name="cemail"> Email
+            <br>   
+            <input type="text" id="cnumber" name="cnumber"> Client Number
+            <br>  
+            <input type="text" id="caltemail" name="caltemail"> Alt. Email
+            <br>      
+            <input type="text" id="cjob" name="cjob"> Job Name
+            <br>      
+            <input type="text" id="cjobnumber" name="cjobnumber"> Job Number
+            <br>      
+            <input type="submit" value="Submit">
+          </form>
+
+        </div>
+
+        <div id="editClient" class="tabcontent">
+          <form action="/action_page.php">
+          <h3>Update Your Client</h3>
+            <input type="text" id="cname" name="cname"> Name
+            <br>
+            <input type="text" id="cstreet" name="cstreet"> Street
+            <br>
+            <input type="text" id="ccity" name="ccity"> City
+            <br>
+            <input type="text" id="cphone" name="cphone"> Phone#
+            <br>
+            <input type="text" id="cattn" name="cattn"> Attn:
+            <br>
+            <input type="text" id="cemail" name="cemail"> Email
+            <br>   
+            <input type="text" id="cnumber" name="cnumber"> Client Number
+            <br>  
+            <input type="text" id="caltemail" name="caltemail"> Alt. Email
+            <br>      
+            <input type="text" id="cjob" name="cjob"> Job Name
+            <br>      
+            <input type="text" id="cjobnumber" name="cjobnumber"> Job Number
+            <br>      
+            <input type="submit" value="Submit">
+          </form>
+
+        </div>
         <!-- <h3>Client</h3>
 <p>Tokyo is the capital of Japan.</p> -->
-        <div>
           <!-- Invoice Date:
 <div class="clientInfo" id="invoiceDate" >
 </div>
@@ -146,14 +215,12 @@ Client Task List
 <div class="clientInfo" id="clientTasks" >
 </div> -->
 
-        </div>
-
       </div>
-
+    
       <!-- ---------------------------------------------- -->
-    </div>
+</div>
 
-
+ <!-- ---------------------------------------------- -->
 
     <div id="invoice" class="tabcontent">
 
