@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
 
-<button type="button" class="btn btn-danger" onclick="clientPopulate()">Big 'ol' Test Button</button>
+<button type="button" class="btn btn-danger" id="testies" onclick="newClientData()">Big 'ol' Test Button</button>
 
   <body id="page">
     <div id="workPage">
@@ -57,7 +57,7 @@
             <a class="nav-link" onclick="runclock()">Start/Stop</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" onclick="addTable()">Add Work</a>
+            <a class="nav-link" onclick="addRow()">Add Work</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="save-link">Save Work</a>
@@ -125,7 +125,9 @@ Date
         </div>
 
         <div id="addClient" class="tabcontent">
-          <form action="/action_page.php">
+          <h3>Add A New Client</h3>
+          
+          <!-- <form action="/action_page.php">
           <h3>Add A New Client</h3>
             <input type="text" id="cname" name="cname"> Name
             <br>
@@ -148,8 +150,136 @@ Date
             <input type="text" id="cjobnumber" name="cjobnumber"> Job Number
             <br>      
             <input type="submit" value="Submit">
-          </form>
+          </form> -->
 
+
+
+
+
+          <form name="formName">
+            <div id="myTabDiv">
+            <table name="mytab" id="mytab1">
+              <tr>
+                  <td><input size="25" type="text" id="cname" name="cname" placeholder="Client Name"></td>
+                  <td><input size="2" type="text" id="0-1" name="0-1" placeholder="0-1"></td>
+                  <td><input size="10" type="text" id="pname0" name="pname0" placeholder="Project Name"></td>
+                  <td><input size="10" type="text" id="pnumber0" name="pnumber0" placeholder="Project Number"></td>
+                  <td><input size="2" type="text" id="0-7" name="0-8" placeholder="0-4"></td>
+                  <td><input size="2" type="text" id="0-5" name="0-5" placeholder="0-5"></td>
+                  <td><input size="2" type="text" id="0-6" name="0-6" placeholder="0-6"></td>
+              </tr>
+                  <tr>
+                  <td><input size="25" type="text" id="cstreet" name="cstreet" placeholder="Street"></td>
+                  <td><input size="2" type="text" id="1-1" name="1-1" placeholder="1-1"></td>
+                  <td><input size="10" type="text" id="pname1" name="pname1" placeholder="Project Name"></td>
+                  <td><input size="10" type="text" id="pnumber1" name="pnumber1" placeholder="Project Number"></td>
+                  <td><input size="2" type="text" id="1-4" name="1-4" placeholder="1-4"></td>
+                  <td><input size="2" type="text" id="1-5" name="1-5" placeholder="1-5"></td>
+                  <td><input size="2" type="text" id="1-6" name="1-6" placeholder="1-6"></td>
+              </tr>
+            </table>
+            </div>
+          </form>
+          <br>
+          <a class="newSave" id="newClientSave">Save New Client</a>
+
+<form>
+<table2 id="newClientData" >
+    <!-- <tr>
+        <td><input size="25" type="text" id="cname" name="cname" placeholder="Client Name"></td>
+        <td><input size="2" type="text" id="0-1" name="0-1" placeholder="0-1"></td>
+        <td><input size="10" type="text" id="pname0" name="pname0" placeholder="Project Name"></td>
+        <td><input size="10" type="text" id="pnumber0" name="pnumber0" placeholder="Project Number"></td>
+        <td><input size="2" type="text" id="0-4" name="0-4" placeholder="0-4"></td>
+        <td><input size="2" type="text" id="0-5" name="0-5" placeholder="0-5"></td>
+        <td><input size="2" type="text" id="0-6" name="0-6" placeholder="0-6"></td>
+    </tr>
+    <tr>
+        <td><input size="25" type="text" id="cstreet" name="cstreet" placeholder="Street"></td>
+        <td><input size="2" type="text" id="1-1" name="1-1" placeholder="1-1"></td>
+        <td><input size="10" type="text" id="pname1" name="pname1" placeholder="Project Name"></td>
+        <td><input size="10" type="text" id="pnumber1" name="pnumber1" placeholder="Project Number"></td>
+        <td><input size="2" type="text" id="1-4" name="1-4" placeholder="1-4"></td>
+        <td><input size="2" type="text" id="1-5" name="1-5" placeholder="1-5"></td>
+        <td><input size="2" type="text" id="1-6" name="1-6" placeholder="1-6"></td>
+    </tr>
+        <tr>
+        <td><input size="25" type="text" id="ccity" name="ccity" placeholder="City"></td>
+        <td><input size="2" type="text" id="2-1" name="2-1" placeholder="2-1"></td>
+        <td><input size="10" type="text" id="pname2" name="pname2" placeholder="Project Name"></td>
+        <td><input size="10" type="text" id="pnumber2" name="pnumber2" placeholder="Project Number"></td>
+        <td><input size="2" type="text" id="2-4" name="2-4" placeholder="2-4"></td>
+        <td><input size="2" type="text" id="2-5" name="2-5" placeholder="2-5"></td>
+        <td><input size="2" type="text" id="2-6" name="2-6" placeholder="2-6"></td>
+    </tr> -->
+        <!-- <tr>
+        <td><input size="25" type="text" id="cphone" name="cname" placeholder="Phone"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+    </tr>
+        <tr>
+        <td><input size="25" type="text" id="cattn" name="cname" placeholder="Attention"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+    </tr>
+        <tr>
+        <td><input size="25" type="text" id="cemail" name="cname" placeholder="Email"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+    </tr>
+        <tr>
+        <td><input size="25" type="text" id="cnumber" name="cname" placeholder="Client Number"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+    </tr>
+        <tr>
+        <td><input size="25" type="text" id="caltemail" name="cname" placeholder="Alt Email"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+    </tr>
+        <tr>
+        <td><input size="25" type="text" id="cjob" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+    </tr>
+        <tr>
+        <td><input size="25" type="text" id="cjobnumber" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="10" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+        <td><input size="2" type="text" id="cname" name="cname" placeholder="Name"></td>
+    </tr> -->
+       
+    <!-- </tbody> -->
+</table2>
+
+</form>
         </div>
 
         <div id="editClient" class="tabcontent">
