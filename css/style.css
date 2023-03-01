@@ -190,20 +190,55 @@ body {
      overflow-x: hidden;
 }
 
-table {
+#newClientSave {
+  border-radius: 25px;
+  background: #cccccc;
+  padding-top: 50px;
+  padding: 10px;
+  /* width: 200px;
+  height: 150px; */
+  font-weight: bolder;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#buffetTable {
      font-family: arial, sans-serif;
      border-collapse: collapse;
      width: 100%;
      margin: 15px;
    }
    
-   td, th {
+ #buffetTable  td, th {
      border: 1px solid #000000;
      text-align: left;
      padding: 6px;
    }
    
-   tr:nth-child(even) {
+#buffetTable   tr:nth-child(even) {
      background-color: #c9c9c9;
    }
 
+#newClientData {
+     font-family: arial, sans-serif;
+     /* border-collapse: collapse; */
+    /* max-width: 100%; */
+     margin: 8px;
+}
+
+#newClientData td, #newClientData th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+/* #newClientData tr:nth-child(even){background-color: #f2f2f2;} */
+
+/* #newClientData tr:hover {background-color: #ddd;} */
+
+#newClientData th {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: left;
+  /* background-color: #04AA6D; */
+  /* color: white; */
+}
