@@ -503,3 +503,7 @@ function showClientInfo() {
 	hideIt.style.display = "none";
 	nope.style.display = "none";
 }
+
+function test(){
+console.log(c1001)
+}
