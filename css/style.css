@@ -21,10 +21,14 @@ html {
      scroll-behavior: smooth;
 }
 
-.timeField{
+#timeField{
      padding-left: 10px;
-font-size: 25px;
-text-decoration: none !important;
+font-size: 30px;
+text-align: right;
+/* text-decoration: solid; */
+font-weight: bold;
+color: rgb(204, 0, 0);
+/* text-decoration: none !important; */
 }
 
 .nav{
@@ -168,8 +172,21 @@ width: 100%;
 text-align: center;
 position: fixed;
 bottom: 0;
-
 } 
+
+.table {
+  margin: auto;
+  width: 100%;
+  /* border: 3px solid green; */
+  /* padding: 10px; */
+  text-align: center;
+}
+
+.table thead th {
+  border-bottom: 2px solid #000000;
+  border-top: .5px solid #000000;
+  text-align: center;
+}
 
    .tab button.active {
      background-color: #ccc;
