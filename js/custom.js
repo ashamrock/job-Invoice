@@ -4,6 +4,7 @@ var seconds = 0;
 var minutes = 0;
 var hours = 0;
 var onTheClock = 0;
+var totalSeconds=0;
 var tableUpdate = 0;
 
 var today = new Date();
@@ -11,17 +12,28 @@ var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 var yyyy = today.getFullYear();
 var date = mm + '_' + dd + '_' + yyyy;
+var startTime=0;
+var stopTime=0;
 
-var clientNumber = []
-var client = []
-var newClient = []
-var projects = []
-var jobNumbers = []
+// var date = new Date(); // Now
+// date.setDate(date.getDate() + 30); // Set now + 30 days as the new date
+// console.log(date);
 
 var file = document.getElementById('inputfile');
 
-var taskData = [];
 var allData = [];
+
+var clientNumber;
+var clientData;
+var invoiceNum;
+var invoiceNumber;
+var invoiceDate;
+var invoiceDueDate;
+var newClient = []
+var projects = []
+// var jobNumbers = []
+var taskData = [];
+var timeTable = [];
 
 var workingFileName = "";
 var tophead;
@@ -33,7 +45,7 @@ var billingTotal = [];
 var hourTotals;
 var subTotals;
 
-var invoiceNum
+var invoiceNumber
 
 document.getElementById("fileDate").innerHTML = date
 
@@ -80,41 +92,37 @@ file.addEventListener('change', () => {
 			allData.push(lines[line].split("\t"));
 		}
 
-		for (var line = 0; line < 15; line++) {
-			client.push(lines[line].split("\t"));
-		}
-
-		for (var line = 15; line < 16; line++) {
-			headTitle.push(lines[line].split("\t"));
-		}
-
-		for (var line = 16; line < lines.length; line++) {
-			taskData.push(lines[line].split("\t"));
-		}
+		clientNumber=Number(allData[0][0])
+		invoiceNum=Number(allData[1][0])	
+		invoiceDate=Number(allData[2][0])
+		invoiceDueDate=Number(allData[3][0])	
+		clientData=eval('c' + clientNumber);
 
 		var getProjects = document.getElementById("projectlist");
 		var newDiv = document.createElement("select");
 		getProjects.appendChild(newDiv);
 		newDiv.setAttribute("id", "Projects");
 
-		for (var i = 0; i < 15; i++) {	
+		for (var line = 17; line < allData.length; line++) {
+			taskData.push(lines[line].split("\t"));
+		}
+
+		for (var i = 4; i < 16; i++) {	
 			var select = document.getElementById("Projects");
-			data = allData[i][2]
+			data = allData[i][0]
 			if (data===""){
 				break;
 			}
 			projects.push(data);
 			var element = document.createElement("option");
-			var option = projects[i];
+			var option = projects[i-4];
 			    element.textContent = option;
     			element.value = option;
     			select.appendChild(element);
-			jobNumbers.push(allData[i][3]);	
-				element.setAttribute("id", allData[i][3]);
+				jobNumbers.push(allData[i][1]);	
+				element.setAttribute("id", allData[i][1]);
 		}
 
-
-		// console.log(allData)
 		clientPopulate()
 		generate_table()
 	}
@@ -124,97 +132,93 @@ file.addEventListener('change', () => {
 });
 
 function clientPopulate() {
-	clientName = client[0][0]
-	clientStreet = client[1][0]
-	clientCity = client[2][0]
-	clientPhone = client[3][0]
-	clientAttn = client[4][0]
-	clientEmail = client[5][0]
+	
+	// clientName = client[0][0]
+	// clientStreet = client[1][0]
+	// clientCity = client[2][0]
+	// clientPhone = client[3][0]
+	// clientAttn = client[4][0]
+	// clientEmail = client[5][0]
 
-	clientInvoiceDate = client[6][0]
-	clientInvoiceDue = client[7][0]
-	clientInvoiceNum = client[8][0]
-	clientNumber = client[9][0]
-	clientPOC = client[10][0]
-	other1 = client[11][0]
-	other2 = client[12][0]
-	other3 = client[13][0]
-	invoiceNum = clientInvoiceNum + "_" + clientNumber + " FIX INVOICE NUMBER!!!!!"
-	document.getElementById("clientName").innerHTML = clientName
-	document.getElementById("clientStreet").innerHTML = clientStreet
-	document.getElementById("clientCity").innerHTML = clientCity
-	document.getElementById("clientPhone").innerHTML = clientPhone
-	document.getElementById("clientAttn").innerHTML = clientAttn
-	document.getElementById("clientEmail").innerHTML = clientEmail
-	document.getElementById("clientInvoiceDate").innerHTML = "Invoice Date: " + clientInvoiceDate + "FIX THIS!!!!!"
-	document.getElementById("invoiceNum").innerHTML = "Invoice #: " + invoiceNum
-	document.getElementById("clientInvoiceDue").innerHTML = "Due: " + clientInvoiceDue + "FIX THIS!!!!!"
-	document.getElementById("clientTitle").innerHTML = clientName
+	// clientInvoiceDate = client[6][0]
+	// clientInvoiceDue = client[7][0]
+	// clientInvoiceNum = client[8][0]
+	// clientNumber = client[9][0]
+	// clientPOC = client[10][0]
+	// other1 = client[11][0]
+	// other2 = client[12][0]
+	// other3 = client[13][0]
+
+	invoiceNumber = invoiceNum + "_" + clientNumber
+	document.getElementById("clientName").innerHTML = clientData[0]
+	document.getElementById("clientStreet").innerHTML = clientData[1]
+	document.getElementById("clientCity").innerHTML = clientData[2]
+	document.getElementById("clientPhone").innerHTML = clientData[3]
+	document.getElementById("clientAttn").innerHTML = "Attn: "+clientData[4]
+	document.getElementById("clientEmail").innerHTML = clientData[5]
+	document.getElementById("clientInvoiceDate").innerHTML = "Invoice Date: " + invoiceDate + "FIX THIS!!!!!"
+	document.getElementById("invoiceNum").innerHTML = "Invoice #: " + invoiceNumber
+	document.getElementById("clientInvoiceDue").innerHTML = "Due: " + invoiceDueDate + "FIX THIS!!!!!"
+	document.getElementById("clientTitle").innerHTML = clientData[0]
 	// document.getElementById("totalDue").innerHTML = subTotals
-
+	// console.log(invoiceNumber)
 }
 
 function runclock() {
+	if (workingFileName === "") {
+	alert("no time to be added")
+	return
+	}
 	if (onTheClock === 0) {
 		onTheClock = 1
-
 		var element = document.getElementById("roundLogo");
 		element.classList.add("rotate");
-
-		timeValue = setInterval(function () {
-			var t = seconds++;
-			if (seconds > 59) {
-				minutes++;
-				seconds = 0;
-				if (minutes > 59) {
-					hours++;
-					minutes = 0;
-				}
-			}
-
-			document.getElementById("hourDiv").innerHTML = hours;
-			document.getElementById("minuteDiv").innerHTML = minutes;
-			document.getElementById("secondDiv").innerHTML = seconds;
-		}, 1000);
+		startTime = Date.now()/1000
 	} else if (onTheClock === 1) {
-		clearInterval(timeValue);
 		onTheClock = 0;
+		stopTime = Date.now()/1000
+		timeTable.push(stopTime - startTime)
 		var element = document.getElementById("roundLogo");
 		element.classList.remove("rotate");
 	}
 }
 
 function reset() {
-	clearInterval(timeValue);
 	onTheClock = 0;
-	seconds = 0;
-	minutes = 0;
-	hours = 0;
-	document.getElementById("hourDiv").innerHTML = hours;
-	document.getElementById("minuteDiv").innerHTML = minutes;
-	document.getElementById("secondDiv").innerHTML = seconds;
-
+	timeTable = [];
+	document.getElementById("timeField").innerHTML = "";
 	var element = document.getElementById("roundLogo");
 	element.classList.remove("rotate");
-
 }
 
 function addRow() {
-	addingup()
 
-	if (onTheClock === 0) {
+	if (workingFileName === "") {
+	alert("No work to add")
+	return
+	}
+
+	timeValue = timeTable.reduce(function (a, b) {
+		return a + b;
+	});
+
+	if (timeValue === 0) {
+		alert("No time to add")
 		return;
 	}
 
+	addingup()
+
+timeValue = 5327;
+console.log("here it is")
 	var empvalue = document.getElementById("nameInput").value;
 	var ratevalue = document.getElementById("rateInput").value;
 	var taskvalue = document.getElementById("Projects").value;
 	var taskNumber = document.getElementById("Projects");
 	var jobvalue = taskNumber.options[taskNumber.selectedIndex].id;
-	var hoursvalue = hours + (minutes / 60) + (seconds / 3600);
-	var totalvalue = hoursvalue * ratevalue;
+	var hoursTime = (timeValue/3600).toFixed(1)
+	var totalvalue = hoursTime * ratevalue;
 
-console.log(hoursvalue)
 	if (empvalue.length === 0) {
 		alert("Enter your name")
 		return;
@@ -226,6 +230,7 @@ console.log(hoursvalue)
 		return;
 	}
 
+console.log(billingHours)
 	var table = document.getElementById("taskTable");
 	var row = table.insertRow(0);
 	var cell1 = row.insertCell(0);
@@ -240,12 +245,13 @@ console.log(hoursvalue)
 	cell3.innerHTML = ratevalue;
 	cell4.innerHTML = taskvalue;
 	cell5.innerHTML = jobvalue;
-	cell6.innerHTML = hoursvalue.toFixed(1);
-	cell7.innerHTML = totalvalue.toFixed(0);
-	taskData.unshift([date, empvalue, ratevalue, taskvalue, jobvalue, hoursvalue.toFixed(1), totalvalue.toFixed(0)])
+	cell6.innerHTML = hoursTime;
+	cell7.innerHTML = totalvalue;
+	taskData.unshift([date, empvalue, ratevalue, taskvalue, jobvalue, hoursTime, totalvalue])
+	console.log(taskData)
 	addingup()
+
 	reset();
-	clearInterval(timeValue);
 }
 
 function addingup() {
@@ -255,10 +261,10 @@ function addingup() {
 	hourTotals = "";
 	subTotals = "";
 
+console.log(allData)
 	for (let i = 0; i < taskData.length; i++) {
 		billingHours.push(parseFloat(taskData[i][5]))
 		billingTotal.push(parseFloat(taskData[i][6]))
-
 		hourTotals = billingHours.reduce(function (a, b) {
 			return a + b;
 		});
@@ -280,10 +286,10 @@ function addingup() {
 		currency: 'USD'
 	});
 	document.getElementById("totalDue").innerHTML = demo1
-
-	headTitle[0][5]=hourTotals	
-	headTitle[0][6]=subTotals	
-
+// 	headTitle=header
+// 	headTitle[0][5]=hourTotals	
+// 	headTitle[0][6]=subTotals	
+// console.log(headTitle)
 }
 
 function poping(){
@@ -401,7 +407,6 @@ $('#save-link').click(function save() {
 	}
 )
 
-
 $('#newClientSave').click(function save() {
 
 	// var retContent = [];
@@ -450,8 +455,6 @@ $('#newClientSave').click(function save() {
 		btn.prop("download", date+ "_" + clientNumber + "_" + substring);
 	}
 )
-
-
 
 function newClientData(){
 // var table = document.getElementById("mytab1");

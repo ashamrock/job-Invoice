@@ -1,3 +1,16 @@
+var c1000 = [
+            "Name", 
+            "Street",
+            "City",
+            "Phone Number",
+            "Attention",
+            "Email",
+            100,
+            1000,
+            "Alternate Email",
+            "Notes"
+            ]
+            
 var c1001 = [
             "Frank Novak and Sons, Inc.", 
             "23940 Miles Road",
