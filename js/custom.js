@@ -12,6 +12,8 @@ var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 var yyyy = today.getFullYear();
 var date = mm + '_' + dd + '_' + yyyy;
+var netDays = 60;
+var futureDate;
 var startTime=0;
 var stopTime=0;
 
@@ -29,15 +31,16 @@ var invoiceNum;
 var invoiceNumber;
 var invoiceDate;
 var invoiceDueDate;
-var newClient = []
 var projects = []
 // var jobNumbers = []
 var taskData = [];
 var timeTable = [];
+var clientsNames=[];
+var clientSheet=[]
 
 var workingFileName = "";
 var tophead;
-var header = ["Date", "Employee", "Rate", "Task", "Job #", "Hours", "SubTotal"]
+var header = ["Date", "Employee", "Rate", "Task", "Job #", "Hours", "SubTotal"];
 var headTitle = []
 
 var billingHours = [];
@@ -48,6 +51,8 @@ var subTotals;
 var invoiceNumber
 
 document.getElementById("fileDate").innerHTML = date
+
+getClients()
 
 function openTab(evt, tabName) {
 	var i, tabcontent, tablinks;
@@ -77,6 +82,39 @@ function cleanSlate(){
 	div1.parentNode.removeChild(div1);
 	var div2=document.getElementById("Projects");
 	div2.parentNode.removeChild(div2);
+
+}
+
+function getClients(){
+	for (var c = 0; c < clientList.length; c++) {
+		var select = document.getElementById("cnames");
+		data = clientList[c][2]
+		if (clientList[c][0]===clientNumber){
+			clientData=(clientList[c])
+		}
+			clientsNames.push(data);
+			var element = document.createElement("option");
+			var option = clientsNames[c];
+			    element.textContent = option;
+    			element.value = option;
+    			select.appendChild(element);
+				element.setAttribute("id", clientList[c][0]);
+		}	
+}
+
+document.getElementById('cnames').onchange = function() {
+    var index = this.selectedIndex;
+    var clientId = this.children[index].id;
+	for (var c = 0; c < clientList.length; c++) {
+		if (clientList[c][0]==clientId){
+			clientSheet=clientList[c]
+		}
+	}
+
+	// for (var i = 2; i < 9; i++) {
+	// var getText = document.getElementById('editSheet'+i);
+   	// getText.value=editSheet[i]
+	// }
 }
 
 file.addEventListener('change', () => {
@@ -96,12 +134,22 @@ file.addEventListener('change', () => {
 		invoiceNum=Number(allData[1][0])	
 		invoiceDate=Number(allData[2][0])
 		invoiceDueDate=Number(allData[3][0])	
-		clientData=eval('c' + clientNumber);
+
+		for (var c = 0; c < clientList.length; c++) {
+			if (clientList[c][0]===clientNumber){
+				clientData=(clientList[c])
+			}
+		}
 
 		var getProjects = document.getElementById("projectlist");
 		var newDiv = document.createElement("select");
 		getProjects.appendChild(newDiv);
 		newDiv.setAttribute("id", "Projects");
+
+		var allClients = document.getElementById("cnames");
+		var newDiv = document.createElement("select");
+		allClients.appendChild(newDiv);
+		newDiv.setAttribute("id", "clientNames");
 
 		for (var line = 17; line < allData.length; line++) {
 			taskData.push(lines[line].split("\t"));
@@ -132,36 +180,17 @@ file.addEventListener('change', () => {
 });
 
 function clientPopulate() {
-	
-	// clientName = client[0][0]
-	// clientStreet = client[1][0]
-	// clientCity = client[2][0]
-	// clientPhone = client[3][0]
-	// clientAttn = client[4][0]
-	// clientEmail = client[5][0]
-
-	// clientInvoiceDate = client[6][0]
-	// clientInvoiceDue = client[7][0]
-	// clientInvoiceNum = client[8][0]
-	// clientNumber = client[9][0]
-	// clientPOC = client[10][0]
-	// other1 = client[11][0]
-	// other2 = client[12][0]
-	// other3 = client[13][0]
-
-	invoiceNumber = invoiceNum + "_" + clientNumber
-	document.getElementById("clientName").innerHTML = clientData[0]
-	document.getElementById("clientStreet").innerHTML = clientData[1]
-	document.getElementById("clientCity").innerHTML = clientData[2]
-	document.getElementById("clientPhone").innerHTML = clientData[3]
-	document.getElementById("clientAttn").innerHTML = "Attn: "+clientData[4]
-	document.getElementById("clientEmail").innerHTML = clientData[5]
+	invoiceNumber = (invoiceNum+100) + "_" + (clientNumber+1000)
+	document.getElementById("clientName").innerHTML = clientData[2]
+	document.getElementById("clientStreet").innerHTML = clientData[3]
+	document.getElementById("clientCity").innerHTML = clientData[4]
+	document.getElementById("clientPhone").innerHTML = clientData[5]
+	document.getElementById("clientAttn").innerHTML = "Attn: "+clientData[6]
+	document.getElementById("clientEmail").innerHTML = clientData[7]
 	document.getElementById("clientInvoiceDate").innerHTML = "Invoice Date: " + invoiceDate + "FIX THIS!!!!!"
 	document.getElementById("invoiceNum").innerHTML = "Invoice #: " + invoiceNumber
 	document.getElementById("clientInvoiceDue").innerHTML = "Due: " + invoiceDueDate + "FIX THIS!!!!!"
-	document.getElementById("clientTitle").innerHTML = clientData[0]
-	// document.getElementById("totalDue").innerHTML = subTotals
-	// console.log(invoiceNumber)
+	document.getElementById("clientTitle").innerHTML = clientData[2]
 }
 
 function runclock() {
@@ -209,14 +238,14 @@ function addRow() {
 
 	addingup()
 
-timeValue = 5327;
-console.log("here it is")
 	var empvalue = document.getElementById("nameInput").value;
 	var ratevalue = document.getElementById("rateInput").value;
 	var taskvalue = document.getElementById("Projects").value;
 	var taskNumber = document.getElementById("Projects");
 	var jobvalue = taskNumber.options[taskNumber.selectedIndex].id;
 	var hoursTime = (timeValue/3600).toFixed(1)
+// hoursTime=1.5;
+// console.log("hello again")
 	var totalvalue = hoursTime * ratevalue;
 
 	if (empvalue.length === 0) {
@@ -230,7 +259,6 @@ console.log("here it is")
 		return;
 	}
 
-console.log(billingHours)
 	var table = document.getElementById("taskTable");
 	var row = table.insertRow(0);
 	var cell1 = row.insertCell(0);
@@ -247,8 +275,10 @@ console.log(billingHours)
 	cell5.innerHTML = jobvalue;
 	cell6.innerHTML = hoursTime;
 	cell7.innerHTML = totalvalue;
-	taskData.unshift([date, empvalue, ratevalue, taskvalue, jobvalue, hoursTime, totalvalue])
-	console.log(taskData)
+	// newRow=[date, empvalue, ratevalue, taskvalue, jobvalue, String(hoursTime), String(totalvalue + "\r")]
+	newRow=[date, empvalue, ratevalue, taskvalue, jobvalue, hoursTime, totalvalue]
+	taskData.unshift(newRow)
+	allData.splice(17,0,newRow);
 	addingup()
 
 	reset();
@@ -261,7 +291,6 @@ function addingup() {
 	hourTotals = "";
 	subTotals = "";
 
-console.log(allData)
 	for (let i = 0; i < taskData.length; i++) {
 		billingHours.push(parseFloat(taskData[i][5]))
 		billingTotal.push(parseFloat(taskData[i][6]))
@@ -275,21 +304,31 @@ console.log(allData)
 
 		hourTotals = "Hours= " + hourTotals.toFixed(1);
 		subTotals = "SubTotal= $" + addBills.toFixed(0);
+		finalTotal="$"+addBills.toFixed(2);
 
-		tophead.rows[0].cells[5].innerHTML = hourTotals;
-		tophead.rows[0].cells[6].innerHTML = subTotals;
+		document.getElementById("totalDue").innerHTML = finalTotal
 
+		tophead.rows[0].cells[5].innerHTML = String(hourTotals);
+		tophead.rows[0].cells[6].innerHTML =  String(subTotals);
+		allData[16][5] = String(hourTotals);;
+		allData[16][6] = String(subTotals);
 	}
 
-	const demo1 = (addBills).toLocaleString('en-US', {
-		style: 'currency',
-		currency: 'USD'
-	});
-	document.getElementById("totalDue").innerHTML = demo1
-// 	headTitle=header
-// 	headTitle[0][5]=hourTotals	
-// 	headTitle[0][6]=subTotals	
-// console.log(headTitle)
+	// const demo1 = (addBills).toLocaleString('en-US', {
+	// 	style: 'currency',
+	// 	currency: 'USD'
+	// });
+}
+
+function invoiceDue() {
+	console.log(today)
+var plusSixty = today.setDate(today.getDate() + netDays);
+console.log(plusSixty)
+var futuredd = String(plusSixty.getDate()).padStart(2, '0');
+var futuremm = String(plusSixty.getMonth() + 1).padStart(2, '0'); //January is 0!
+var futureyyyy = plusSixty.getFullYear();
+var futureDate = futuremm + '_' + futuredd + '_' + futureyyyy;
+console.log(futureDate)
 }
 
 function poping(){
@@ -315,8 +354,8 @@ base.after(clone);
 }
 
 function erase_table(){
-var noDiv=document.getElementById("invoiceTable");
-noDiv.parentNode.removeChild(noDiv);
+var noInvoiceTable=document.getElementById("invoiceTable");
+noInvoiceTable.parentNode.removeChild(noInvoiceTable);
 }
 
 function generate_table() {
@@ -359,44 +398,18 @@ function generate_table() {
 }
 
 $('#save-link').click(function save() {
-
-	// var retContent = [];
-	// var retString = '';
-
-	// for (var i = 0; i < client.length; i++) {
-	// 	retContent.push(client[i].join("\t"));
-	// };
-
-	// $('thead tr').each(function (idx, elem) {
-	// 	var elemText = [];
-	// 	$(elem).children('th').each(function (childIdx, childElem) {
-	// 		elemText.push($(childElem).text());
-	// 	});
-	// 	retContent.push(`${elemText.join('\t')}`);
-	// });
-	// $('tbody tr').each(function (idx, elem) {
-	// 	var elemText = [];
-	// 	$(elem).children('td').each(function (childIdx, childElem) {
-	// 		elemText.push($(childElem).text());
-	// 	});
-	// 	retContent.push(`${elemText.join('\t')}`);
-	// });
-	// retString = retContent.join('\n');
-
-// console.log(retString)
+	if (clientNumber === "") {
+	alert("No file loaded")
+	return
+	}
 
 	saveTable=[]
 	tableText=""
 
-		for (var i = 0; i < client.length; i++) {
-			saveTable.push(client[i].join("\t"));
-		}	
-		for (var i = 0; i < headTitle.length; i++) {
-			saveTable.push(headTitle[i].join("\t"));
-		}			
-		for (var i = 0; i < taskData.length; i++) {
-			saveTable.push(taskData[i].join("\t"));
+		for (var i = 0; i < allData.length; i++) {
+			saveTable.push(allData[i].join("\t"));
 		}
+
 	tableText = saveTable.join('\n');
 
 		var file = new Blob([tableText], { type: 'text/plain' });
@@ -408,55 +421,69 @@ $('#save-link').click(function save() {
 )
 
 $('#newClientSave').click(function save() {
+	// if (clientNumber === "") {
+	// alert("No file loaded")
+	// return
+	// }
+	var newClient = [];
+	var newClientText; 
 
-	// var retContent = [];
-	// var retString = '';
+		// var lines = this.result.split('\n');
 
-	// for (var i = 0; i < client.length; i++) {
-	// 	retContent.push(client[i].join("\t"));
-	// };
+		// for (var line = 0; line < lines.length; line++) {
+		// 	// client.push(lines[line].replace(",", "	"));
+		// 	allData.push(lines[line].split("\t"));
+		// }
+	// var newJob= document.getElementById('clientSheet0').value+"	"+document.getElementById('clientSheet1').value
 
-	// $('thead tr').each(function (idx, elem) {
-	// 	var elemText = [];
-	// 	$(elem).children('th').each(function (childIdx, childElem) {
-	// 		elemText.push($(childElem).text());
-	// 	});
-	// 	retContent.push(`${elemText.join('\t')}`);
-	// });
-	// $('tbody tr').each(function (idx, elem) {
-	// 	var elemText = [];
-	// 	$(elem).children('td').each(function (childIdx, childElem) {
-	// 		elemText.push($(childElem).text());
-	// 	});
-	// 	retContent.push(`${elemText.join('\t')}`);
-	// });
-	// retString = retContent.join('\n');
+	newClient.push(
+		clientSheet[0],
+		clientSheet[1],
+		date,
+		today,
+		document.getElementById('clientSheet0').value+"	",
+		"	",
+		"	",
+		"	",
+		"	",
+		"	",
+		"	",
+		"	",
+		"	",
+		"	",
+		"	",
+		"	",
+		"Date	Employee	Rate	Task	Job #	Hours	SubTotal"
+		)
 
-// console.log(retString)
+	newClientText = newClient.join('\n');
 
-	saveTable=[]
-	tableText=""
-
-		for (var i = 0; i < client.length; i++) {
-			saveTable.push(client[i].join("\t"));
-		}	
-		for (var i = 0; i < headTitle.length; i++) {
-			saveTable.push(headTitle[i].join("\t"));
-		}			
-		for (var i = 0; i < taskData.length; i++) {
-			saveTable.push(taskData[i].join("\t"));
-		}
-	tableText = saveTable.join('\n');
-
-		var file = new Blob([tableText], { type: 'text/plain' });
-		var btn = $('#newClientSave');
-		var substring = workingFileName.slice(16);
-		btn.attr("href", URL.createObjectURL(file));
-		btn.prop("download", date+ "_" + clientNumber + "_" + substring);
-	}
+	console.log(newClientText)
+	saveNumber=Number(clientSheet[0])+1000;
+	var file = new Blob([newClientText], { type: 'text/plain' });
+	var btn = $('#newClientSave');
+	btn.attr("href", URL.createObjectURL(file));
+	btn.prop("download", date+ "_" + (Number(clientSheet[0])+1000) + "_" + clientSheet[2]);
+}
 )
 
-function newClientData(){
+function saveNewSheet(){
+	console.log("heidi ho")
+
+    // var index = this.selectedIndex;
+    // var clientId = this.children[index].id;
+	// for (var c = 0; c < clientList.length; c++) {
+	// 	if (clientList[c][0]==clientId){
+	// 		clientSheet=clientList[c]
+	// 	}
+	// }
+
+	// for (var i = 2; i < 10; i++) {
+	// var getText = document.getElementById('clientSheet'+i);
+   	// getText.value=clientSheet[i-1]
+	// }
+
+
 // var table = document.getElementById("mytab1");
 // for (var i = 0, row; row = table.rows[i]; i++) {
 //    for (var j = 0, col; col = row.cells[j]; j++) {
@@ -468,6 +495,20 @@ function newClientData(){
 		// for (var line = 0; line < 15; line++) {
 		// 	client.push(lines[line].split("\t"));
 		// }
+
+        // spread.fromJSON(name);
+
+
+
+
+
+// var fileToLoad = document.getElementById("fileToLoad").files[0];
+// var fileReader = new FileReader();
+//     fileReader.onload = function(fileLoadedEvent){ 
+//         document.getElementById("inputTextToSave").value = fileLoadedEvent.target.result;
+//     };
+// fileReader.readAsText(fileToLoad, "UTF-8");
+
 }
 
 function hide() {
@@ -480,33 +521,29 @@ function show() {
 	element.style.display = "block";
 }
 
-function showAddClient() {
-	var showMe = document.getElementById("addClient");
+function showNewClientWorkSheet() {
+	var showMe = document.getElementById("newClientWorkSheet");
 	var hideIt = document.getElementById("editClient");
-	var nope = document.getElementById("clientInfo");
+	// var nope = document.getElementById("clientInfo");
 	showMe.style.display = "block";
 	hideIt.style.display = "none";
-	nope.style.display = "none";
+	// nope.style.display = "none";
 }
 
 function showEditClient() {
 	var showMe = document.getElementById("editClient");
-	var hideIt = document.getElementById("addClient");
-	var nope = document.getElementById("clientInfo");
+	var hideIt = document.getElementById("newClientWorkSheet");
+	// var nope = document.getElementById("clientInfo");
 	showMe.style.display = "block";
 	hideIt.style.display = "none";
-	nope.style.display = "none";
+	// nope.style.display = "none";
 }
 
-function showClientInfo() {
-	var showMe = document.getElementById("clientInfo");
-	var hideIt = document.getElementById("addClient");
-	var nope = document.getElementById("editClient");
-	showMe.style.display = "block";
-	hideIt.style.display = "none";
-	nope.style.display = "none";
-}
-
-function test(){
-console.log(c1001)
-}
+// function showClientInfo() {
+// 	var showMe = document.getElementById("clientInfo");
+// 	var hideIt = document.getElementById("newClientWorkSheet");
+// 	var nope = document.getElementById("editClient");
+// 	showMe.style.display = "block";
+// 	hideIt.style.display = "none";
+// 	nope.style.display = "none";
+// }
